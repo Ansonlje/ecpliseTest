@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<style type="text/css">
+		table{
+			border: green 1px solid;
+			border-collapse: separate;
+			border-spacing:0;
+		}
+		#tr1 td{
+			border: green 1px solid;
+			margin: 10px;
+			width: 100px;
+			height: 40px;
+			text-align: center;
+			font-size: 30px;
+			font-weight: bold;
+			background-color: #ff0000;
+		}
+		.one{
+			border: black 1px solid;
+			width: 100px;
+			height: 40px;
+			text-align: center;
+			font-size: 20px;
+			background-color: green;
+		}
+		.two{
+			border: black 1px solid;
+			width: 100px;
+			height: 40px;
+			text-align: center;
+			font-size: 20px;
+			background-color: blue;
+		}
+		.onmouse{
+			border: black 1px solid;
+			width: 100px;
+			height: 40px;
+			text-align: center;
+			font-size: 20px;
+			background-color: orange;
+		}
+		
+		
+		
+	</style>
+
+	<script type="text/javascript">
+		var name;//创建1个存储旧样式的变量
+		var flag=true;
+		
+	
+		function toColor(){
+		var tabNode= document.getElementsByTagName("table")[0];//获取table对象
+			 for(var x=1;x<tabNode.rows.length;x++){  //样式1、2、1、2的取
+				if(x%2==1){
+					tabNode.rows[x].className='one';
+				}
+				else{
+					tabNode.rows[x].className='two';
+				}
+					
+					tabNode.rows[x].onmouseover=function(){		//鼠标在里面，存旧样式，变新样式
+						name=this.className;
+						 this.className='onmouse';  
+					}
+					tabNode.rows[x].onmouseout=function(){		//鼠标离开，获取回旧样式
+						this.className=name;
+					}
+			}
+		  
+		}	
+		
+		function AgeSort(){
+			//获取age名字的td的父节点的父节点tbody
+			var tboNode=document.getElementById("age").parentNode.parentNode;
+			
+			var arrNode=[];//创建1个临时存储行排序的容器
+			var temp;//创建1个数组对象置换临时变量
+			
+			
+			//把rows对象放入临时容器中
+			for(var x=1;x<tboNode.rows.length;x++){
+				 arrNode[x-1]=tboNode.rows[x];
+			 }
+			
+			//遍历、对比，年龄最小（或最大，立flag判断效果升序还是降序）的row对象按顺序排列
+			if(flag){
+				for(var y=0;y<arrNode.length;y++){
+					for(var z=y+1;z<arrNode.length;z++){
+						if(parseInt(arrNode[y].cells[1].innerHTML)>parseInt(arrNode[z].cells[1].innerHTML)){
+								temp=arrNode[y];
+								arrNode[y]=arrNode[z];
+								arrNode[z]=temp;
+						}
+					}
+				
+				}
+				flag=false;
+			}
+			else{
+				for(var y=0;y<arrNode.length;y++){
+					for(var z=y+1;z<arrNode.length;z++){
+						if(parseInt(arrNode[y].cells[1].innerHTML)<parseInt(arrNode[z].cells[1].innerHTML)){
+								temp=arrNode[y];
+								arrNode[y]=arrNode[z];
+								arrNode[z]=temp;
+						}
+					}
+				
+				}
+				flag=true;
+			}
+			
+			
+			//使用tbody的添加行，按顺序添加回去，末尾一直添加上
+			for(var x=0;x<arrNode.length;x++){
+				tboNode.appendChild(arrNode[x]);
+			}
+			
+			//重加载一次表格格式
+			onload();
+		
+		
+		}
+	</script>
+
+</head>
+<body onload="toColor()">
+	
+
+	<table>
+		<tr id='tr1' >
+			<td>姓名</td>
+			<td id="age" onclick="AgeSort()">年龄</td>
+			<td>地址</td>
+		</tr>
+		<tr>
+			<td>张三</td>
+			<td>48</td>
+			<td>北京</td>
+		</tr>
+		<tr>
+			<td>李四</td>
+			<td>36</td>
+			<td>上海</td>
+		</tr>
+		<tr>
+			<td>王五</td>
+			<td>20</td>
+			<td>广州</td>
+		</tr>
+		<tr>
+			<td>陈六</td>
+			<td>25</td>
+			<td>辽宁</td>
+		</tr>
+		<tr>
+			<td>卢七</td>
+			<td>6</td>
+			<td>沈阳</td>
+		</tr>
+		<tr>
+			<td>赵八</td>
+			<td>54</td>
+			<td>东北</td>
+		</tr>
+		<tr>
+			<td>九九</td>
+			<td>33</td>
+			<td>内蒙古</td>
+		</tr>
+	
+	</table>
+</body>
+</html>
